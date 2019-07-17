@@ -1,9 +1,11 @@
-(ns rastit-gpx.workspaces
+(ns rastit-gpx.workspaces.main
   (:require
    [nubank.workspaces.core :as ws]
    [nubank.workspaces.card-types.react :as ct.react]
+   [re-frame.core :as re-frame]
    [reagent.core :as reagent]
-   [rastit-gpx.core :as core]))
+   [rastit-gpx.core :as core]
+   [rastit-gpx.events :as events]))
 
 (ws/defcard rastit-gpx
   (do

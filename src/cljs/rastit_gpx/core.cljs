@@ -19,7 +19,6 @@
   (re-frame/clear-subscription-cache!)
   (reagent/render [ui] (.getElementById js/document "app")))
 
-
 (defn ^:export init []
   (re-frame/dispatch-sync [::events/initialize-db])
   (dev-setup)

@@ -3,6 +3,7 @@
 /*-init.clj
 /resources/public/js/compiled
 /resources/public/css/compiled
+/resources/public/js/workspaces
 out
 .#*
 .lein-env
@@ -10,14 +11,12 @@ out
 .lein-failures
 .idea
 .java-version
-finnishsummer.iml
 .nrepl-port
 .DS_STORE
 /output
 template.yml
 profiles.clj
 node_modules
-config/dev.edn
 config/*.edn
 .shadow-cljs
 .cpcache
