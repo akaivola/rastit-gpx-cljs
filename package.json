@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "watch": "shadow-cljs watch app"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.8.40"
+  },
+  "dependencies": {
+    "create-react-class": "^15.6.3",
+    "highlight.js": "^9.12.0",
+    "prum-preact": "^8.2.5",
+    "react": "16.5.2",
+    "react-dom": "16.5.2",
+    "react-grid-layout": "^0.16.6"
+  }
+}

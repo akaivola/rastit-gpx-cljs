@@ -1,0 +1,34 @@
+;; shadow-cljs configuration
+{:nrepl {:port 7777}
+
+ :deps   {:aliases [:provided :dev]}
+
+ :builds
+ {:app
+  {:target     :browser
+   :modules    {:app {:entries [rastit-gpx.core]}}
+   :output-dir "resources/public/js/compiled"
+   :asset-path "/js/compiled"
+   :dev        {:compiler-options {:closure-defines {re_frame.trace.trace_enabled?        true
+                                                     ;;day8.re-frame.tracing.trace-enabled? true
+                                                     }}}
+
+   :devtools   {:http-root    "resources/public"
+                :http-handler shadow.http.push-state/handle
+                :http-port    8280
+                :after-load   rastit-gpx.core/mount-root
+                :preloads     [devtools.preload
+                               ;;day8.re-frame-10x.preload
+                               ]}}
+  :workspaces
+  {:target     :browser
+   :output-dir "resources/public/js/workspaces"
+   :asset-path "/js/workspaces"
+   :devtools   {:preloads           [devtools.preload]
+                :after-load         nubank.workspaces.core/after-load
+                :loader-mode        :eval
+                :http-root          "resources/public"
+                :http-port          3655
+                :http-resource-root "."}
+   :modules    {:workspaces {:entries [rastit-gpx.workspaces.main]}}}
+}}
