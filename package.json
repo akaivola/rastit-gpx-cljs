@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "create-react-class": "^15.6.3",
-    "highlight.js": "^9.12.0",
+    "highlight.js": "^9.15.8",
     "prum-preact": "^8.2.5",
     "react": "16.5.2",
     "react-dom": "16.5.2",
