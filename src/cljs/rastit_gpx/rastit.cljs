@@ -15,7 +15,8 @@
           {:tag :a :content [number-of-routes]}
           _ ;; skip, don't know what this means
           {:tag :a :content [is-reitit]}]
-         {:href (apply str (butlast (drop 1 link)))
+         {:route-number (apply str (butlast (drop 1 link)))
+          :date date
           :location location
           :municipality municipality
           :routes number-of-routes ;; reitit.fi supports multiple routes
@@ -33,16 +34,36 @@
       (map tds->route-description)
       (filterv some?)))
 
-(def r (vec (load-routes)))
-
 (r/reg-sub
  :rastit/routes
  (fn [db _]
-   (when-let [rastit (load-routes)]
-     (spy (:body rastit))
-     (:body rastit))))
+   (load-routes)))
+
+(defn direct-route-download []
+  (let [dl (reagent/atom nil)]
+    [:div
+     [:label {:for "dl"} "Reitin numero:"]
+     [:input#dl {:type      "number"
+                 :on-change #(reset! dl (-> % .-target .-value))}]
+     [:button {:on-click #(when (pos? @dl) (js/fetchGpx @dl))} "Lataa"]]))
 
 (defn available-rastit-routes []
-  (let [routes @(r/subscribe [:rastit/routes])]
-    [:div routes]
-    ))
+  [:div.available-rastit-routes
+   [:h1 "Viimeisimm&auml;t reitit"]
+   (into
+    [:div.routes]
+    (for [{:keys [route-number date location municipality]}
+          @(r/subscribe [:rastit/routes])]
+      [:div.route
+       {:on-click
+        #(js/fetchGpx
+          route-number
+          (str date "_" location "_" route-number))}
+       [:h1 date]
+       [:h2 municipality]
+       [:h3 location]]))])
+
+(defn route-displays []
+  [:div.route-displays
+   [direct-route-download]
+   [available-rastit-routes]])

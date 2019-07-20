@@ -5,13 +5,12 @@
    [rastit-gpx.events :as events]
    [rastit-gpx.subs]
    [rastit-gpx.config :as config]
-   [rastit-gpx.rastit :refer [available-rastit-routes]]))
+   [rastit-gpx.rastit :refer [route-displays]]))
 
 (defn ui []
-  [:div
+  [:div.ui
    [:h1 "Rastit.fi GPX route downloader"]
-   [:a {:href "#" :on-click #(js/fetchGpx "9717" "test_9717")} "test"]
-   [available-rastit-routes]])
+   [route-displays]])
 
 (defn dev-setup []
   (when config/debug?
