@@ -19,16 +19,4 @@
                 :after-load   rastit-gpx.core/mount-root
                 :preloads     [devtools.preload
                                ;;day8.re-frame-10x.preload
-                               ]}}
-  :workspaces
-  {:target     :browser
-   :output-dir "resources/public/js/workspaces"
-   :asset-path "/js/workspaces"
-   :devtools   {:preloads           [devtools.preload]
-                :after-load         nubank.workspaces.core/after-load
-                :loader-mode        :eval
-                :http-root          "resources/public"
-                :http-port          3655
-                :http-resource-root "."}
-   :modules    {:workspaces {:entries [rastit-gpx.workspaces.main]}}}
-}}
+                               ]}}}}
