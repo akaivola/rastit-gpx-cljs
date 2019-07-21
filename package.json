@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "create-react-class": "^15.6.3",
-    "prum-preact": "^8.2.5",
     "react": "16.5.2",
     "react-dom": "16.5.2"
   }

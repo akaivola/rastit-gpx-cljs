@@ -32,6 +32,8 @@
       (mapcat :content) ;; they're all :td, go straight to :content
       (partition 6) ;; six td cells in tr
       (map tds->route-description)
+      (sort-by :route-number)
+      reverse
       (filterv some?)))
 
 (r/reg-sub
@@ -41,17 +43,23 @@
 
 (defn direct-route-download []
   (let [dl (reagent/atom nil)]
-    [:div
+    [:div.direct-route-download
      [:label {:for "dl"} "Reitin numero:"]
-     [:input#dl {:type      "number"
+     [:input.route-input {:id "dl"
+                          :type      "number"
                  :on-change #(reset! dl (-> % .-target .-value))}]
-     [:button {:on-click #(when (pos? @dl) (js/fetchGpx @dl))} "Lataa"]]))
+     [:button.gpxbutton {:on-click #(when (pos? @dl) (js/fetchGpx @dl))} "Lataa"]]))
 
 (defn available-rastit-routes []
   [:div.available-rastit-routes
-   [:h1 "Viimeisimm&auml;t reitit"]
+   [:h2 "Uusimmat reitit:"]
    (into
-    [:div.routes]
+    [:div.routes
+     [:div.route-header
+      [:div "#"]
+      [:div "Pvm"]
+      [:div "Kuvaus"]
+      [:div "Paikkakunta"]]]
     (for [{:keys [route-number date location municipality]}
           @(r/subscribe [:rastit/routes])]
       [:div.route
@@ -59,9 +67,10 @@
         #(js/fetchGpx
           route-number
           (str date "_" location "_" route-number))}
-       [:h1 date]
-       [:h2 municipality]
-       [:h3 location]]))])
+       [:div route-number]
+       [:div date]
+       [:div municipality]
+       [:div location]]))])
 
 (defn route-displays []
   [:div.route-displays
