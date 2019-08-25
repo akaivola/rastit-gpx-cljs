@@ -96,7 +96,7 @@ var createElementAndDownload = function(name) {
 }
 
 var fetchGpx = (number, name) => {
-  fetch("https://cors-anywhere.herokuapp.com/https://www.rastit.fi/ajax/download-routes.php?id=" + number)
+  return fetch("https://cors-anywhere.herokuapp.com/https://www.rastit.fi/ajax/download-routes.php?id=" + number)
     .then(response => response.text())
     .then(parseFeature)
     .then(toGpx)

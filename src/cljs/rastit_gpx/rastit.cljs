@@ -56,21 +56,27 @@
    (into
     [:div.routes
      [:div.route-header
+      [:div ""]
       [:div "#"]
       [:div "Pvm"]
       [:div "Kuvaus"]
       [:div "Paikkakunta"]]]
     (for [{:keys [route-number date location municipality]}
-          @(r/subscribe [:rastit/routes])]
+          @(r/subscribe [:rastit/routes])
+          :let [checked? (= @(r/subscribe [:query-db [:ui :checked]]) route-number)]]
       [:div.route
        {:on-click
-        #(js/fetchGpx
-          route-number
-          (str date "_" location "_" route-number))}
+        #(do (.then (js/fetchGpx
+                     route-number
+                     (str date "_" location "_" route-number))
+                    (fn []
+                      (debug "dispatch" route-number)
+                      (r/dispatch [:set-db [:ui :checked] route-number]))))}
+       [:div (when checked? "✓")]
        [:div route-number]
        [:div date]
        [:div municipality]
-       [:div location]]))])
+       [:div.multiline location]]))])
 
 (defn route-displays []
   [:div.route-displays
