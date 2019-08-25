@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: 'Questrial', sans-serif;
   color: #0c0c0;
   font-size: 25px;
@@ -10,6 +11,11 @@ body {
   flex-flow: column nowrap;
   align-items: center;
   margin: 0.5em;
+  width: auto;
+}
+
+.route-displays {
+  width: auto;
 }
 
 .direct-route-download {
@@ -74,15 +80,30 @@ body {
 
 .route, .route-header {
   display: grid;
-  grid-template-columns: 100px 180px 20% auto;
-  padding: 0.2em;
+  width: 100%;
+  grid-template-columns: 70px 100px 160px 160px auto;
 }
+
 .route:hover {
   background-color: #89c403;
   cursor: pointer;
 }
 
+.route:hover > div:first-of-type {
+  background-color: white;
+}
+
 .route-header {
   font-weight: bold;
   font-size: 2rem;
+}
+
+.route-header, .route div {
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  white-space: nowrap;
+}
+
+.route div.multiline {
+  white-space: normal;
 }
