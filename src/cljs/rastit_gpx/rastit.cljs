@@ -15,7 +15,7 @@
           {:tag :a :content [number-of-routes]}
           _ ;; skip, don't know what this means
           {:tag :a :content [is-reitit]}]
-         {:route-number (apply str (butlast (drop 1 link)))
+         {:route-number (int (apply str (butlast (drop 1 link))))
           :date date
           :location location
           :municipality municipality
@@ -45,9 +45,9 @@
   (let [dl (reagent/atom nil)]
     [:div.direct-route-download
      [:label {:for "dl"} "Reitin numero:"]
-     [:input.route-input {:id "dl"
+     [:input.route-input {:id        "dl"
                           :type      "number"
-                 :on-change #(reset! dl (-> % .-target .-value))}]
+                          :on-change #(reset! dl (-> % .-target .-value))}]
      [:button.gpxbutton {:on-click #(when (pos? @dl) (js/fetchGpx @dl))} "Lataa"]]))
 
 (defn available-rastit-routes []
@@ -63,15 +63,19 @@
       [:div "Paikkakunta"]]]
     (for [{:keys [route-number date location municipality]}
           @(r/subscribe [:rastit/routes])
-          :let [checked? (= @(r/subscribe [:query-db [:ui :checked]]) route-number)]]
+          :let [checked? ((set @(r/subscribe [:query-db [:ui :checked]])) route-number)]]
       [:div.route
        {:on-click
         #(do (.then (js/fetchGpx
                      route-number
                      (str date "_" location "_" route-number))
                     (fn []
-                      (debug "dispatch" route-number)
-                      (r/dispatch [:set-db [:ui :checked] route-number]))))}
+                      (r/dispatch
+                       [:state-update
+                        (fn [db]
+                          (update-in
+                           db [:ui :checked]
+                           (fnil conj (set nil)) route-number))]))))}
        [:div (when checked? "✓")]
        [:div route-number]
        [:div date]
