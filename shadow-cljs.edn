@@ -27,5 +27,6 @@
    :output-dir "resources/public/js/compiled"
    :asset-path "/js/compiled"
    :release {:compiler-options {:infer-externs :auto
+                                :optimizations :advanced
                                 :closure-defines {good.DEBUG false
                                                   "re_frame.trace.trace_enabled_QMARK_" false}}}}}}
